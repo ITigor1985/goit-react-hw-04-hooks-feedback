@@ -1,41 +1,51 @@
 import { GlobalStyle } from "../../GlobalStyled/GlobalStyled.styled";
 import { Container } from "./App.styled";
-import { Component } from "react";
+import { useState } from "react";
 
 import Section from "../Section";
 import FeedbackOptions from "../FeedbackOptions";
 import Statistics from "../Statistics";
 import Notification from "../Notification";
 
-class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+function App() {
+  
+  let [good, setGood] = useState(0);
+  let [neutral, setNeutral] = useState(0);
+  let [bad, setBad] = useState(0);
 
-  onLeaveFeedback = (e) => {
+  const onLeaveFeedback = (e) => {
     const key = e.target.name;
-    this.setState((prevState) => {
-      return { [key]: (prevState[key] += 1) };
-    });
+    
+    switch(key){
+      case 'good':
+        setGood(good += 1);
+        break;
+        case 'neutral':
+        setNeutral(neutral += 1);
+        break;
+        case 'bad':
+        setBad(bad += 1);
+        console.log(bad);
+        break;
+        default:return;
+    }    
   };
 
-  countTotalFeedback = () => {
-    return Object.values(this.state).reduce((total, state) => total + state, 0);
+  const countTotalFeedback = () => {
+    return good + neutral + bad;
   };
-  countFeedbackPercentage = (feedbackCount) => {
+  const countFeedbackPercentage = (feedbackCount) => {
     if (!feedbackCount) {
       return (feedbackCount = 0);
     }
-    return Math.floor((feedbackCount * 100) / this.countTotalFeedback());
+    return Math.floor((feedbackCount * 100) / countTotalFeedback());
   };
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    const options = Object.keys(this.state);
-    const totalStatsFeedback = this.countTotalFeedback();
-    const positiveFeedback = this.countFeedbackPercentage(good);
+  
+    
+    const options = ['good', 'neutral', 'bad'];
+    const totalStatsFeedback = countTotalFeedback();
+    const positiveFeedback = countFeedbackPercentage(good);
 
     return (
       <>
@@ -43,7 +53,7 @@ class App extends Component {
           <Section title={"Please leave feedback"}>
             <FeedbackOptions
               options={options}
-              onLeaveFeedback={this.onLeaveFeedback}
+              onLeaveFeedback={onLeaveFeedback}
             />
           </Section>
           <Section title={"Statistics"}>
@@ -64,6 +74,6 @@ class App extends Component {
       </>
     );
   }
-}
+
 
 export default App;
