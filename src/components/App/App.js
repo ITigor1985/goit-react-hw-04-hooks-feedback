@@ -9,23 +9,22 @@ import Notification from "../Notification";
 
 function App() {
   
-  let [good, setGood] = useState(0);
-  let [neutral, setNeutral] = useState(0);
-  let [bad, setBad] = useState(0);
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
   const onLeaveFeedback = (e) => {
     const key = e.target.name;
     
     switch(key){
       case 'good':
-        setGood(good += 1);
+        setGood(prevState => prevState  += 1);
         break;
         case 'neutral':
-        setNeutral(neutral += 1);
+        setNeutral(prevState => prevState  += 1);
         break;
         case 'bad':
-        setBad(bad += 1);
-        console.log(bad);
+        setBad(prevState => prevState  += 1);
         break;
         default:return;
     }    
