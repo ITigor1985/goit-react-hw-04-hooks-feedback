@@ -18,7 +18,7 @@ function App() {
     
     switch(key){
       case 'good':
-        console.log(setGood(prevState=>1));
+        
         setGood(prevState => prevState  += 1);
         break;
         case 'neutral':
